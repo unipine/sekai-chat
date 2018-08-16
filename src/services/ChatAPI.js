@@ -84,7 +84,7 @@ class ChatAPI {
   )
 
 
-  getMessagesAPI = (id,token) => (
+  getMessagesAPI = (id, token) =>  ( console.log('id',id,'token',token) ||
     this.axios.get(`/channels/${id}/messages`,{
     headers: {
       "Content-Type": "application/json",
@@ -94,8 +94,18 @@ class ChatAPI {
     })
   )
 
-  postMessagesAPI = (id,message,token) => ( console.log('id',id,'message',message,'token',token) ||
-    this.axios.post(`/channels/${id}/messages`,message,{
+  getMessagesSinceAPI = (id,since, token) =>  ( console.log('id',id,'since',since,'token',token) ||
+    this.axios.get(`/channels/${id}/messages?since=${since}`,{
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` }
+    }).then(response => {
+      return response.data
+    })
+  )
+
+  postMessagesAPI = (id,token,values) => ( console.log('id',id,'token',token,'values',values) ||
+    this.axios.post(`/channels/${id}/messages`,values,{
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}` }

@@ -257,13 +257,10 @@ export const postMember = (id,token) => (dispatch, getState, api) => console.log
 
 
 
-export const postMessage = (channel,token,text) => (dispatch, getState, api) =>
+export const postMessage = (id,token,values) => (dispatch, getState, api) => console.log('id',id, 'token',token,'values',values) ||
 
-  api.postMessagesAPI(channel,token,text).then(response => {
-        dispatch(newMessage(response))
-      }, error => {
-        dispatch(messageError(error))
-      }).then(() => {
+  api.postMessagesAPI(id,token,values).then(response => {
+    console.log('postMessage response:',response)
         dispatch(messageSuccess())
       })
 
@@ -310,7 +307,8 @@ export const getMembers = (id,token) => (dispatch, getState, api) => {
       console.log('getMembers',id)
 
       return api.getMembersAPI(id,token).then(members => {
-        members.forEach(member => dispatch(addMember))
+        console.log('Members', members)
+        members.forEach(member => dispatch(addMember(member)))
       }, error => {
         dispatch(membersError(error))
       }).then(() => {
@@ -445,23 +443,27 @@ export const pullMembers = (id, token, ms = 5000) => (dispatch, getState, api) =
     running = false
   }
 
-  function loop () {
-    interval = setTimeout(() => {
 
-      api.getMembersAPI(id,token).then(data => {
-          if (running) {
-            if (data.length) {
-              listener(data)
+    function loop () {
+
+      interval = setTimeout(() => {
+
+        api.getMembersAPI(id,token).then(data => {
+
+            if (running) {
+
+              if (data.length) {
+                listener(data)
+              }
+
+              loop()
             }
-            loop()
-          }
-        }, error => {
-          dispatch(membersError(error))
-        }).then(() => {
-          dispatch(membersLoaded())
-        })
-    }, ms)
-  }
+
+          })
+
+      }, ms)
+
+    }
 
   return { start, stop }
 
@@ -473,7 +475,8 @@ export const pullMessages = (id,token, ms = 1000) => (dispatch, getState, api) =
   let listener = null
   let running = false
   let interval = null
-  let lastId = null
+  let lastId = ''
+  let sorted = []
 
   const start = fn => {
     listener = fn
@@ -487,25 +490,31 @@ export const pullMessages = (id,token, ms = 1000) => (dispatch, getState, api) =
     running = false
   }
 
-  function loop () {
-    interval = setTimeout(() => {
 
-      api.getMessagesAPI(id,lastId,token).then(data => {
-          if (running) {
-            if (data.length) {
-              lastId = data[data.length - 1]._id
-              listener(data)
+
+    function loop () {
+
+      interval = setTimeout(() => {
+
+        api.getMessagesSinceAPI(id,lastId,token).then(data => {
+
+            if (running) {
+
+              if (data.length) {
+                sorted = data.sort(function(a, b){return Date.parse(a.createdAt) - Date.parse(b.createdAt)})
+                lastId = sorted[data.length - 1]._id
+                console.log('lastid',lastId, 'sorted',sorted)
+                listener(sorted)
+              }
+
+              loop()
             }
-            loop()
-          }
-        }, error => {
-          dispatch(messagesError(error))
-        }).then(() => {
-          dispatch(messagesLoaded())
-        })
 
-    }, ms)
-  }
+          })
+
+      }, ms)
+
+    }
 
   return { start, stop }
 }

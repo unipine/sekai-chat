@@ -10,7 +10,7 @@ class ChannelPage extends Component {
 
   Submit = (values, dispatch, props) => {
 
-    const {token, getChannels} = this.props
+    const {token, getChannels, postChannel} = this.props
 
     dispatch(postChannel(values,token)).catch(
       err => {throw new SubmissionError({_error:err.message})}
@@ -34,6 +34,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  getChannels
+  getChannels,
+  postChannel
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage)

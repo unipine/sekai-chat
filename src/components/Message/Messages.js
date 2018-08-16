@@ -8,6 +8,7 @@ import MessagesList from './MessagesList'
 
 class Messages extends Component {
 
+
  componentDidMount () {
 
    const { id, token, pullMessages, addMessage } = this.props
@@ -30,7 +31,7 @@ class Messages extends Component {
       <div>
         {loading_msg && <div> Loading Messages... </div>}
         {!!loading_msg_err && <div> Loading Messages Error: {loading_msg_err} </div>}
-        <MessagesList messages={messages}/>
+        {messages.length > 0 ? <MessagesList messages={messages}/> : <div></div>}
       </div>
 
     )

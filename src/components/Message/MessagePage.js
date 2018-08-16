@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { SubmissionError } from 'redux-form'
+import {connect} from 'react-redux'
+import {SubmissionError} from 'redux-form'
 import MessageForm from './MessageForm'
 import { postMessage } from '../../actions/Actions'
+import {getStateToken, getStateChannel} from '../../selectors/Selectors'
 
 class MessagePage extends Component {
 
@@ -9,7 +11,11 @@ class MessagePage extends Component {
 
     console.log('Message Page',values)
 
-    dispatch(postMessage(values)).catch(err => {throw new SubmissionError({_error:err.message})})
+    const {id, token, postMessage} = this.props
+
+    dispatch(postMessage(id, token, values)).catch(
+      err => {throw new SubmissionError({_error:err.message})}
+    )
 
   }
 
@@ -20,4 +26,13 @@ class MessagePage extends Component {
   }
 }
 
-export default MessagePage
+
+
+const mapStateToProps = state => ({
+  token: getStateToken(state),
+  id: getStateChannel(state)
+})
+
+const mapDispatchToProps = {postMessage}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagePage)
