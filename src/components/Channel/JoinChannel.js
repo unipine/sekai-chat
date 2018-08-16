@@ -6,9 +6,11 @@ import { getStateToken, getStateChannel, getStateJoinedMember, getStateJoinedErr
 class JoinChannel extends Component {
 
  componentDidMount () {
-    const { channel, token, joinChannel } = this.props
-    console.log('JoinChannel',channel,token)
-    joinChannel(channel,token)
+    const { id, token, joinChannel } = this.props
+    console.log('JoinChannel',id,token)
+    if (!id) {
+      joinChannel(id,token)
+    }
   }
 
   render () {
@@ -30,7 +32,7 @@ class JoinChannel extends Component {
 
 const mapStateToProps = state => ({
   token: getStateToken(state),
-  channel: getStateChannel(state),
+  id: getStateChannel(state),
   joined: getStateJoinedMember(state),
   error: getStateJoinedError(state)
 })

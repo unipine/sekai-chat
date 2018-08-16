@@ -214,18 +214,13 @@ export const messagesLoaded = () => {
 
 
 export const postUser = creds => (dispatch, getState, api) =>
-
       api.postUsersAPI(creds).then(response => {
         dispatch(postAuth(response.token))
         dispatch(newUser(creds))
-      }, error => {
-        dispatch(loginError(error))
-      }).then(() => {
-        dispatch(loginSuccess())
       })
 
-export const postAuth = creds => (dispatch, getState, api) =>
 
+export const postAuth = creds => (dispatch, getState, api) =>
       api.postAuthAPI(creds).then(response => {
         console.log('Response: ', response)
         dispatch(newToken(response.token))
@@ -234,7 +229,7 @@ export const postAuth = creds => (dispatch, getState, api) =>
       })
 
 
-export const postChannel = (name,token) => (dispatch, getState, api) => console.log('post name',name, 'token',token) ||
+export const postChannel = (name,token) => (dispatch, getState, api) =>
       api.postChannelsAPI(name,token).then(response => {
         console.log('Response postChannelAPI: ', response)
         dispatch(setChannel(response._id))
@@ -242,14 +237,14 @@ export const postChannel = (name,token) => (dispatch, getState, api) => console.
 
 
 
-export const joinChannel = (id,token) => (dispatch, getState, api) => console.log('join id',id, 'token',token) ||
+export const joinChannel = (id,token) => (dispatch, getState, api) =>
         api.postMembersAPI(id,token).then(response => {
           console.log('Response postJoinChannelAPI: ', response)
           dispatch(setChannel(id))
         })
 
 
-export const postMember = (id,token) => (dispatch, getState, api) => console.log('member id',id, 'token',token) ||
+export const postMember = (id,token) => (dispatch, getState, api) =>
       api.postMembersAPI(id,token).then(response => {
         console.log('Response postMembersAPI: ', response)
         dispatch(newMember(response))
@@ -257,8 +252,7 @@ export const postMember = (id,token) => (dispatch, getState, api) => console.log
 
 
 
-export const postMessage = (id,token,values) => (dispatch, getState, api) => console.log('id',id, 'token',token,'values',values) ||
-
+export const postMessage = (id,token,values) => (dispatch, getState, api) =>
   api.postMessagesAPI(id,token,values).then(response => {
     console.log('postMessage response:',response)
         dispatch(messageSuccess())

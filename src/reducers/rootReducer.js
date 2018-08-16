@@ -6,6 +6,7 @@ import {channelReducer} from './channelReducer'
 import {memberReducer} from './memberReducer'
 import {membersReducer} from './membersReducer'
 import {messagesReducer} from './messagesReducer'
+import {messageReducer} from './messageReducer'
 import {combineReducers} from 'redux'
 import {reducer as formReducer } from 'redux-form'
 import {itemReducerCreator} from './itemReducerCreator'
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   channels: channelsReducer,
   member: memberReducer,
   members: itemReducerCreator({add_item: ADD_MEMBER, item_loading: MEMBERS_LOADING, item_error: MEMBERS_ERROR, item_loaded: MEMBERS_LOADED}),
+  message: messageReducer,
   messages: messagesReducer,
   form: formReducer,
 })

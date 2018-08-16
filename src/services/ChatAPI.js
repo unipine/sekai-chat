@@ -84,7 +84,7 @@ class ChatAPI {
   )
 
 
-  getMessagesAPI = (id, token) =>  ( console.log('id',id,'token',token) ||
+  getMessagesAPI = (id, token) =>
     this.axios.get(`/channels/${id}/messages`,{
     headers: {
       "Content-Type": "application/json",
