@@ -7,9 +7,9 @@ class JoinChannel extends Component {
 
  componentDidMount () {
     const { id, token, joinChannel } = this.props
-    console.log('JoinChannel',id,token)
-    if (!id) {
-      joinChannel(id,token)
+    if (id) {
+        console.log('JoinChannel',id,token)
+        joinChannel(id,token)
     }
   }
 

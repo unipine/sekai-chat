@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { pullChannels } from '../../actions/Actions'
-import { addChannel, getChannels } from '../../actions/Actions'
+import { getChannels } from '../../actions/Actions'
 import { getStateToken, getStateChannels, getLoadingChn, getLoadingChnError } from '../../selectors/Selectors'
 import ChannelsList from './ChannelsList'
 
@@ -12,19 +11,7 @@ class Channels extends Component {
     const { token, getChannels } = this.props
 
     getChannels(token);
-
-/*
-    this.client = pullChannels(token, 1000)
-    this.client.start( newChannels => { newChannels.forEach(addChannel) })
-*/
   }
-
-  componentWillUnmount () {
-
-/*    this.client.stop()
-*/
-  }
-
 
   render () {
 

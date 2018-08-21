@@ -22,7 +22,6 @@ export const loginReducer = (state = initialState, action) => {
         ...state,
         error: action.error
       }
-      return action.error
     case LOGIN_SUCCESS:
       return {
         ...state,

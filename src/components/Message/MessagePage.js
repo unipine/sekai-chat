@@ -33,6 +33,8 @@ const mapStateToProps = state => ({
   id: getStateChannel(state)
 })
 
-const mapDispatchToProps = {postMessage}
+const mapDispatchToProps = {
+  postMessage
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagePage)

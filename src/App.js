@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { getStateToken, getStateChannel, getStateJoinedMember } from './selectors/Selectors'
 import LoginPage from './components/Login'

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import MemberItem from './MemberItem'
 
 const MembersList = ({members}) => console.log('MemberList',{members}) ||

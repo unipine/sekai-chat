@@ -34,10 +34,6 @@ import {
   MESSAGES_ERROR,
   MESSAGES_LOADED} from '../constants/ActionTypes'
 
-
-import { v4 } from 'node-uuid'
-
-
 export const newToken = (token) => {
   return {
     type: NEW_TOKEN,
@@ -253,10 +249,7 @@ export const postMember = (id,token) => (dispatch, getState, api) =>
 
 
 export const postMessage = (id,token,values) => (dispatch, getState, api) =>
-  api.postMessagesAPI(id,token,values).then(response => {
-    console.log('postMessage response:',response)
-        dispatch(messageSuccess())
-      })
+  api.postMessagesAPI(id,token,values).then(response => dispatch(messageSuccess()))
 
 
 export const getUsers = (token) => (dispatch, getState, api) => {

@@ -22,7 +22,6 @@ export const messageReducer = (state = initialState, action) => {
         ...state,
         error: action.error
       }
-      return action.error
     case MESSAGE_SUCCESS:
       return {
         ...state,

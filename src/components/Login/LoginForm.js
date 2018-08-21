@@ -1,7 +1,7 @@
 import React from 'react'
 import { reduxForm, Field } from 'redux-form'
-import {SubmissionError} from 'redux-form'
-import {postUser,postAuth} from '../../actions/Actions'
+import { SubmissionError } from 'redux-form'
+import { postAuth} from '../../actions/Actions'
 
 
 const validate = values => {
