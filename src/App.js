@@ -1,56 +1,28 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { getStateToken, getStateChannel, getStateJoinedMember } from './selectors/Selectors'
-import LoginPage from './components/Login'
-import {Channels, ChannelPage, JoinChannel} from './components/Channel'
-import {Members} from './components/Member'
-import {Messages, MessagePage} from './components/Message'
+import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import ChatApp from './components/ChatApp'
+import LoginPage from './pages/LoginPage'
+import LogoutPage from './pages/LogoutPage'
+import SignInPage from './pages/SignInPage'
+import Navbar from './containers/NavBarContainer'
+import PrivateRoute from './containers/PrivateRouteContainer'
 
-
-const App =  ( {token, channel, joined} ) => {
-
-
-      if (!token) {
-
-        console.log('Login Page Token', token)
-
-        return (
-          <div className="container">
-            <LoginPage />
-          </div>
-        )
-
-      } else if (!!token && !channel) {
-
-        return (
-          <div className="container">
-            <Channels />
-            <ChannelPage />
-            <JoinChannel />
-          </div>
-        )
-
-      } else if (!!token && !!channel) {
-
-
-        console.log('Chat App', channel)
-
-        return (
-            <div className="container">
-              <Members />
-              <Messages />
-              <MessagePage />
-            </div>
-        )
-
-      }
-
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <PrivateRoute path="/chat" component={ChatApp} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/logout" component={LogoutPage} />
+          <Route path="/signin" component={SignInPage} />
+        </Switch>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => ({
-  token: getStateToken(state),
-  channel: getStateChannel(state),
-  joined: getStateJoinedMember(state)
-})
-
-export default connect(mapStateToProps, null)(App)
+export default App;

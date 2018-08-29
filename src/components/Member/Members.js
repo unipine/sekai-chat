@@ -10,22 +10,7 @@ class Members extends Component {
 
     const { id, token, getMembers } = this.props
 
-    console.log(' getMembers id',id,'token',token)
-
     getMembers(id,token)
-
-    /*
-    this.client = pullMembers(id,token, 5000)
-    this.client.start( newMembers => { newMembers.forEach(addMember) } )
-    */
-
-  }
-
-  componentWillUnmount () {
-
-/*
-    this.client.stop()
-*/
 
   }
 

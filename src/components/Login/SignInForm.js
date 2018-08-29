@@ -1,49 +1,63 @@
 import React from 'react'
-import { reduxForm, Field } from 'redux-form'
-import {SubmissionError} from 'redux-form'
-import {postUser,postAuth} from '../../actions/Actions'
+import { Field } from 'redux-form'
+import { Redirect } from 'react-router'
+import renderField from '../renderField'
 
 
-const validate = values => {
+const SignInForm = ({ handleSubmit, submitSucceeded,  error, submitting, ...rest }) =>
+         submitSucceeded ? (
+           <Redirect to="/chat" />
+         ) : (
+           <form className="form-signin" onSubmit={handleSubmit} noValidate autoComplete="off">
+             {error && (
+               <div style={{ color: 'red' }}>
+                 {error}
+               </div>
+             )}
+             {submitting && <div>Submitting...</div>}
+             <div>
+               <Field
+               label="Email"
+               component={renderField}
+               name="email"
+               type="email"
+               className="form-control"
+               autoFocus
+               placeholder="Email de Usuario" />
+             </div>
+             <div>
+               <Field
+               label="Username"
+               component={renderField}
+               name="username"
+               type="text"
+               className="form-control"
+               autoFocus
+               placeholder="Nombre de Usuario" />
+             </div>
+             <div>
+               <Field
+               label="Password"
+               component={renderField}
+               name="password"
+               type="password"
+               className="form-control"
+               autoFocus
+               placeholder="Password de Usuario" />
+             </div>
+             <div>
+               <Field
+               label="Confirm Password"
+               component={renderField}
+               name="confirm_password"
+               type="password"
+               className="form-control"
+               autoFocus
+               placeholder="Confirm Password de Usuario" />
+             </div>
+             <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={submitting}>SignIn</button>
+           </form>
+         )
 
-  const errors = {}
 
-  if (!values.username) {
-    errors.username = 'Required'
-  } else if (values.username > 8 ){
-    errors.username = 'Mas de 8 caracteres...'
-  }
-
-  return errors
-
-}
-
-let LoginForm = ({handleSubmit, submitting}) =>
-      <form className="form-signin" onSubmit={handleSubmit}>
-         <h1 className="h3 mb-3 font-weight-normal">Por favor ingrese sus datos</h1>
-         <div>
-           <label className="sr-only" htmlFor="email">Email</label>
-           <Field component="input" name="email" type="email" className="form-control" autoFocus placeholder="Email de Usuario" />
-         </div>
-         <div>
-           <label className="sr-only" htmlFor="username">Usuario</label>
-           <Field component="input" name="username" type="text" className="form-control" autoFocus placeholder="Nombre de Usuario" />
-         </div>
-         <div>
-           <label className="sr-only" htmlFor="password">Password</label>
-           <Field component="input" name="password" type="password" className="form-control" autoFocus placeholder="Password de Usuario" />
-         </div>
-         <button className="btn btn-lg btn-primary btn-block" type="submit" disabled={submitting}>Login</button>
-       </form>
-
-  const onSubmit = (values,dispatch,props) => {
-
-         console.log('Login Page',values)
-
-         dispatch(postUser(values)).catch(err => {throw new SubmissionError({_error:err.message})})
-         
-       }
-
-LoginForm = reduxForm({ form: 'login', validate, onSubmit}) (LoginForm)
-
-export default LoginForm
+export default SignInForm

@@ -34,6 +34,7 @@ import {
   MESSAGES_ERROR,
   MESSAGES_LOADED} from '../constants/ActionTypes'
 
+
 export const newToken = (token) => {
   return {
     type: NEW_TOKEN,
@@ -207,18 +208,19 @@ export const messagesLoaded = () => {
 }
 
 
-
+export const logout = () => dispatch =>
+    dispatch(newToken(''))
 
 export const postUser = creds => (dispatch, getState, api) =>
       api.postUsersAPI(creds).then(response => {
-        dispatch(postAuth(response.token))
+        console.log('creds',creds)
+        dispatch(postAuth(creds))
         dispatch(newUser(creds))
       })
 
 
 export const postAuth = creds => (dispatch, getState, api) =>
       api.postAuthAPI(creds).then(response => {
-        console.log('Response: ', response)
         dispatch(newToken(response.token))
         dispatch(newUser(creds))
         dispatch(loginSuccess())
@@ -227,7 +229,6 @@ export const postAuth = creds => (dispatch, getState, api) =>
 
 export const postChannel = (name,token) => (dispatch, getState, api) =>
       api.postChannelsAPI(name,token).then(response => {
-        console.log('Response postChannelAPI: ', response)
         dispatch(setChannel(response._id))
       })
 
@@ -235,14 +236,12 @@ export const postChannel = (name,token) => (dispatch, getState, api) =>
 
 export const joinChannel = (id,token) => (dispatch, getState, api) =>
         api.postMembersAPI(id,token).then(response => {
-          console.log('Response postJoinChannelAPI: ', response)
           dispatch(setChannel(id))
         })
 
 
 export const postMember = (id,token) => (dispatch, getState, api) =>
       api.postMembersAPI(id,token).then(response => {
-        console.log('Response postMembersAPI: ', response)
         dispatch(newMember(response))
       })
 
@@ -255,8 +254,6 @@ export const postMessage = (id,token,values) => (dispatch, getState, api) =>
 export const getUsers = (token) => (dispatch, getState, api) => {
 
       dispatch(usersLoading())
-
-      console.log('getUsers',token)
 
       return api.getUsersAPI(token).then(users => {
         users.forEach(user => dispatch(addUser))
@@ -273,10 +270,7 @@ export const getChannels = (token) => (dispatch, getState, api) => {
 
       dispatch(channelsLoading())
 
-      console.log('getChannels',token)
-
       return api.getChannelsAPI(token).then(channels => {
-        console.log('Channels:',channels)
         channels.forEach(channel => dispatch(addChannel(channel)))
       }, error => {
         dispatch(channelsError(error))
@@ -291,10 +285,8 @@ export const getMembers = (id,token) => (dispatch, getState, api) => {
 
       dispatch(membersLoading())
 
-      console.log('getMembers',id)
 
       return api.getMembersAPI(id,token).then(members => {
-        console.log('Members', members)
         members.forEach(member => dispatch(addMember(member)))
       }, error => {
         dispatch(membersError(error))
@@ -309,8 +301,6 @@ export const getMembers = (id,token) => (dispatch, getState, api) => {
 export const getMessages = (id,since,token) => (dispatch, getState, api) => {
 
       dispatch(messagesLoading())
-
-      console.log('getMessages',id)
 
       return api.getMessagesAPI(id,since,token).then(messages => {
         messages.forEach(message => dispatch(addMessage))
@@ -490,7 +480,6 @@ export const pullMessages = (id,token, ms = 1000) => (dispatch, getState, api) =
               if (data.length) {
                 sorted = data.sort(function(a, b){return Date.parse(a.createdAt) - Date.parse(b.createdAt)})
                 lastId = sorted[data.length - 1]._id
-                console.log('lastid',lastId, 'sorted',sorted)
                 listener(sorted)
               }
 

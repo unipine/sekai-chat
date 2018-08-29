@@ -13,7 +13,7 @@ class MessagePage extends Component {
 
     const {id, token, postMessage} = this.props
 
-    dispatch(postMessage(id, token, values)).catch(
+    postMessage(id, token, values).catch(
       err => {throw new SubmissionError({_error:err.message})}
     )
 

@@ -12,7 +12,7 @@ class ChannelPage extends Component {
 
     const {token, getChannels, postChannel} = this.props
 
-    dispatch(postChannel(values,token)).catch(
+    postChannel(values,token).catch(
       err => {throw new SubmissionError({_error:err.message})}
     ).then(
       getChannels(token)

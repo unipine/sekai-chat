@@ -1,19 +1,32 @@
-import React, { Component } from 'react';
-import { withRouter, Route, NavLink, Link, Switch, Redirect } from 'react-router-dom'
-import AuthButton from './components/AuthButton'
+import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
-
-const NavBar = ({isAuthenticated,SignOut}) => (
-  <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <Link className="navbar-brand" to="/">Chat Project</Link>
-    {isAuthenticated && (
-    <div className="navbar-nav mr-auto mt-2 mt-lg-0">
-      <NavLink className="nav-item nav-link" to="/chatroom">Chatroom</NavLink>
-    </div>}
-    <form className="form-inline my-2 my-lg-0">
-      <AuthButton isAuthenticated={isAuthenticated} onSignedOut={SignOut} />
-    </form>
+const Navbar = ({ isAuthenticated }) =>
+  <nav className="navbar navbar-default">
+    <div className="container">
+      <ul className="nav navbar-nav">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/chat">Chat</Link>
+        </li>
+        {isAuthenticated ? (
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
+        ) : (
+          <Fragment>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/signin">Sign In</Link>
+            </li>
+          </Fragment>
+        )}
+      </ul>
+    </div>
   </nav>
-)
 
-export default NavBar
+export default Navbar

@@ -1,48 +1,52 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-//import CreateMessage from './CreateMessage'
-import UserList from './UserList'
-import MessageList from './MessageList'
+import { getStateToken, getStateChannel, getStateJoinedMember } from '../selectors/Selectors'
+import LoginPage from '../pages/LoginPage'
+import {Channels, ChannelPage, JoinChannel} from './Channel'
+import {Members} from './Member'
+import {Messages, MessagePage} from './Message'
 
-import {getUsername,
-  getMessageText,
-  getUsers,
-  getMessages,
-  changeMessage,
-  newMessage,
-  createMessage} from '../actions/Actions'
 
-const ChatApp = ({username, messagetext, users, messages, changeMessage, newMessage, createMessage}) =>{
+const ChatApp =  ( {token, channel, joined} ) => {
 
-  return (
 
-    <div>
-      <section className="header">
-        <h1>Chat App</h1>
-      </section>
-      <UsersList users={users}/>
-      <ChannelsList channels={channels} />
-      <MembersList members={members} />
-      <MessagesList messages={messages}/>
-    </div>
+      if (!token) {
 
-  )
+        return (
+          <div className="container">
+            <LoginPage />
+          </div>
+        )
+
+      } else if (!!token && !channel) {
+
+        return (
+          <div className="container">
+            <Channels />
+            <ChannelPage />
+            <JoinChannel />
+          </div>
+        )
+
+      } else if (!!token && !!channel) {
+
+
+        return (
+            <div className="container">
+              <Members />
+              <Messages />
+              <MessagePage />
+            </div>
+        )
+
+      }
 
 }
 
-
 const mapStateToProps = state => ({
-  username: getUsername(state),
-  messagetext: getMessageText(state),
-  users: getUsers(state),
-  messages: getMessages(state),
+  token: getStateToken(state),
+  channel: getStateChannel(state),
+  joined: getStateJoinedMember(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  changeMessage: messagetext => dispatch(changeMessage(messagetext)),
-  createMessage: (username,messagetext) => dispatch(createMessage(username,messagetext)),
-  newMessage: messagetext => dispatch(newMessage(messagetext)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatApp)
+export default connect(mapStateToProps, null)(ChatApp)

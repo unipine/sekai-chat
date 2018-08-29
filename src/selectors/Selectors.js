@@ -1,4 +1,8 @@
 
+export const isAuthenticated = (state) => {
+   return !state.auth.token ? false: true
+ }
+
 export const getStateToken = (state) => { return state.auth.token}
 
 export const getLogin = (state) => { return state.login.user}
@@ -14,7 +18,6 @@ export const getStateChannels = (state) => { return state.channels.items}
 export const getStateJoinedMember = (state) => { return state.member.joined}
 
 export const getStateJoinedError = (state) => { return state.member.error}
-
 
 export const getStateMembers = (state) => { return state.members.items}
 

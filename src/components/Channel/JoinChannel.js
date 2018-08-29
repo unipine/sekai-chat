@@ -8,7 +8,6 @@ class JoinChannel extends Component {
  componentDidMount () {
     const { id, token, joinChannel } = this.props
     if (id) {
-        console.log('JoinChannel',id,token)
         joinChannel(id,token)
     }
   }
@@ -16,8 +15,6 @@ class JoinChannel extends Component {
   render () {
 
     const {joined,error } = this.props
-
-    console.log('joined',joined,'error',error)
 
     return (
       <div>
